@@ -11,5 +11,5 @@ exports.appDataSource = new typeorm_1.DataSource({
   synchronize: true,
   ssl: true,
   migrations: [`./build/shared/typeorm/migrations/*.{ts,js}`],
-  entities: [`./**/infra/typeorm/entities/**.{ts,js}`]
+  entities: [`./build/infra/typeorm/entities/**.{ts,js}`]
 })
