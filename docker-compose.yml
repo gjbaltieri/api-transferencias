@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: dg-db
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - .docker/dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
+  app:
+    depends_on:
+      - migration
+    links:
+      - db
+    build: .
+    command: npm run startjs
+    restart: always
+    image: ng-api
+    container_name: dg-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./build:/usr/src/app/build
+    environment:
+      - PORT=3000
+      - JWT_SECRET=PrgtCC1nuh93jFAnaOOj20yuM4iVQZYIIUG7WBgu
+
+  migration:
+    build: .
+    image: app
+    command: npm run migration:runjs
+    volumes:
+      - .:/code
+    links:
+      - db
+    depends_on:
+      - db
