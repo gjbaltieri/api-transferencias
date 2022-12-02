@@ -20,7 +20,7 @@ class BalanceVerifyRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const accountRepository = this.repository.get(Account_1.Account);
             const { balance } = yield accountRepository.findOneBy({ id: accountId });
-            if (balance <= value) {
+            if (balance < value) {
                 return new insufficient_balance_1.InsufficientBalance('your balance is insufficient for this transaction.');
             }
             const newBalance = balance - value;

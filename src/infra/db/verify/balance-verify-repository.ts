@@ -8,7 +8,7 @@ export class BalanceVerifyRepository implements BalanceVerify {
   async verify(accountId: string, value: number): Promise<Error | number> {
     const accountRepository = this.repository.get(Account)
     const { balance } = await accountRepository.findOneBy({ id: accountId })
-    if (balance <= value) {
+    if (balance < value) {
       return new InsufficientBalance('your balance is insufficient for this transaction.')
     }
     const newBalance = balance - value
